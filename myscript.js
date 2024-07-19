@@ -48,25 +48,29 @@ function getHumanChoice() {
 // 3) The choices are compared and a winner is determined
 function playRound(humanChoice) {
     computerChoice = getComputerChoice();
-    let info = `The computer chose ${computerChoice} and you chose ${humanChoice}!)`;
+    let info = `You chose ${humanChoice} and the computer chose ${computerChoice}! `;
     let result = determineRPSWinner(computerChoice, humanChoice);
     
     if (result == 1) {
         computerScore += 1;
-        info += ("/n Sorry, you lose this round!");
+        info += ("Sorry, you lose this round!");
     } else if (result == 2) {
         humanScore += 1;
-        info += (" /n You win this round!");
+        info += ("You win this round!");
     } else {
-        info += (" /n Tie, neither player wins this round!");
+        info += ("Tie, neither player wins this round!");
     }
     
     // Update the appropriate text boxes
-    let resultBox = document.querySelector('#results');
+    
     let score = document.querySelector('#score');
 
     resultBox.textContent = info;
-    score.textContent = `Score is Computer: ${computerScore} and You: ${humanScore}`;
+    updateScore(computerScore,humanScore);
+}
+
+function updateScore (computerScore, humanScore){
+    score.textContent = `Computer: ${computerScore} , You: ${humanScore}`;
 }
 
 function determineRPSWinner(player1Choice, player2Choice) {
@@ -87,42 +91,73 @@ function determineRPSWinner(player1Choice, player2Choice) {
 
 }
 
-function playGame() {
-    let computerChoice;
-    let humanChoice;
-    
+function disableRPSButtons() {
 
+    let rock = document.querySelector('#rock');
+    let paper = document.querySelector('#paper');
+    let scissors = document.querySelector('#scissors');
 
-    if (humanScore > computerScore) {
-        console.log("Congratulations! You won the game!");
-    } else {
-        console.log("Sorry! You lost the game. Better luck next time.");
-    }
+    rock.disabled = true;
+    paper.disabled = true;
+    scissors.disabled = true;
+
 
 }
-
-
 
 // Main Code
 let computerScore = 0;
 let humanScore = 0;
 let roundNumber = 0;
-const bestOf = 5;
+const bestOf = 9;
 const needToWin = Math.ceil(bestOf/2);
 //playGame();
 
 let selections = document.querySelector('#buttonContainer');
 
+let resultBox = document.querySelector('#results');
+
+
+
 selections.addEventListener('click',(e)=>{
+
     let target = e.target;
-    roundNumber += 1;
-    console.log(`Playing Round ${roundNumber}`);
-    playRound(target.id);
+    
+    
+    if (target.id === 'buttonContainer'){
+        return; 
+    } else {
+        roundNumber += 1;
+        console.log(`Playing Round ${roundNumber}`);
+        playRound(target.id);
+    }
+    
     if( (computerScore == needToWin) || (humanScore == needToWin) ){
-        alert("Game Over!");
+        
+        if (humanScore > computerScore) {
+            resultBox.textContent = "Congratulations! You won the game!";
+        } else {
+            resultBox.textContent = "Sorry! You lost the game. Better luck next time.";
+        }
+        let body = document.querySelector('body');
+        const playAgainButton = document.createElement("button");
+        playAgainButton.textContent = "Play Again?";
+        disableRPSButtons()
+
+        body.appendChild(playAgainButton);
+        
+        playAgainButton.addEventListener('click',()=>{
+            window.location.reload();
+            // computerScore = 0;
+            // humanScore = 0;
+            // updateScore(computerScore,humanScore)
+            // roundNumber = 0;
+            // resultBox.textContent = "";
+            // body.removeChild(playAgainButton);
+        })
     }
     
 })
+
 
 
 
