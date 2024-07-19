@@ -119,7 +119,7 @@ let resultBox = document.querySelector('#results');
 
 
 selections.addEventListener('click',(e)=>{
-    // COMMenT In mAiN BRANch
+    // Comment in RPS-UI
     let target = e.target;
     
     
