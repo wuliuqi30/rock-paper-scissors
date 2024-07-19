@@ -7,19 +7,12 @@ console.log("Hello Awesome World!")
 // 1) Generates its own choice
 
 
+
+
 function getComputerChoice() {
     // Input: No parameters
     // Output: A string, one of the following: "rock", "paper", "scissors"
-
-    const randomNum = Math.random();
-    // Between 0 and 0.333 is "rock", .3333 .666 is paper, >.66 scissors
-    if (randomNum < 0.333) {
-        return "rock";
-    } else if (randomNum < 0.666) {
-        return "paper";
-    } else {
-        return "scissors";
-    }
+    return numToChoice.get(Math.floor(Math.random() * 3));
 }
 
 
@@ -115,6 +108,12 @@ const needToWin = Math.ceil(bestOf/2);
 let selections = document.querySelector('#buttonContainer');
 
 let resultBox = document.querySelector('#results');
+
+// RPS to number mapping 
+const numToChoice = new Map();
+numToChoice.set(0,"rock");
+numToChoice.set(1,"paper");
+numToChoice.set(2,"scissors");
 
 
 
